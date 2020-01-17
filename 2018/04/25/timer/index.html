@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="前端 博客"><title>定时器：setTimeout和setInterval | 我的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">定时器：setTimeout和setInterval</h1><a id="logo" href="/.">我的博客</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">定时器：setTimeout和setInterval</h1><div class="post-meta">Apr 25, 2018</div><div class="post-content"><ul>
+<li><h3 id="sect-window-setTimeout"><a href="#sect-window-setTimeout" class="headerlink" title="&sect; window.setTimeout"></a>&sect; <a href="#setTimeout">window.setTimeout</a></h3></li>
+<li><h3 id="sect-window-setInterval"><a href="#sect-window-setInterval" class="headerlink" title="&sect; window.setInterval"></a>&sect; <a href="#setInterval">window.setInterval</a></h3></li>
+<li><h3 id="sect-window-clearTimeout"><a href="#sect-window-clearTimeout" class="headerlink" title="&sect; window.clearTimeout"></a>&sect; <a href="#clearTimeout">window.clearTimeout</a></h3></li>
+<li><h3 id="sect-window-clearInterval"><a href="#sect-window-clearInterval" class="headerlink" title="&sect; window.clearInterval"></a>&sect; <a href="#clearInterval">window.clearInterval</a></h3></li>
+<li><h3 id="sect-运行机制"><a href="#sect-运行机制" class="headerlink" title="&sect; 运行机制"></a>&sect; <a href="#theory">运行机制</a></h3></li>
+</ul>
+<h3 id="sect-window-setTimeout-1"><a href="#sect-window-setTimeout-1" class="headerlink" title="&sect; window.setTimeout"></a><a name="setTimeout">&sect; window.setTimeout</a></h3><blockquote>
+<p>设置一个定时器，该定时器在定时器到期后执行一个函数或指定的一段代码。  </p>
+</blockquote>
+<ul>
+<li>function <ul>
+<li>是你想要在delay毫秒之后执行的函数。</li>
+</ul>
+</li>
+<li>code <ul>
+<li>这是一个替代语法，你可以使用字符串代替function。</li>
+<li>在delay毫秒之后执行字符串 (使用该语法是不推荐的, 原因和使用 eval()一样，有安全风险)。</li>
+</ul>
+</li>
+<li>delay 可选 <ul>
+<li>延迟的毫秒数 (一秒等于1000毫秒)，函数的调用会在该延迟之后发生。</li>
+<li>如果省略该参数，delay取默认值0。实际的延迟时间可能会比 delay 值长，</li>
+<li>原因请查看Reasons for delays longer than specified。</li>
+</ul>
+</li>
+<li>param1, …, paramN 可选<ul>
+<li>附加参数，一旦定时器到期，它们会作为参数传递给function </li>
+<li>或 执行字符串（setTimeout参数中的code）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var timeoutID = scope.setTimeout(function[, delay, param1, param2, ...]);</span><br><span class="line">var timeoutID = scope.setTimeout(function[, delay]); </span><br><span class="line">var timeoutID = scope.setTimeout(code[, delay]);</span><br><span class="line"></span><br><span class="line">var intervalID = setTimeout(function() &#123; myFunc(&apos;one&apos;, &apos;two&apos;, &apos;three&apos;); &#125;, 1000);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>实际延时比设定值更久的原因：回调函数阻塞导致的</p>
+</blockquote>
+<blockquote>
+<p><code>this</code> 会指向 window (或全局)对象。  </p>
+</blockquote>
+<h3 id="sect-window-setInterval-1"><a href="#sect-window-setInterval-1" class="headerlink" title="&sect; window.setInterval"></a><a name="setInterval">&sect; window.setInterval</a></h3><blockquote>
+<p>重复调用一个函数或执行一个代码段，在每次调用之间具有固定的时间延迟。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let intervalID = window.setInterval(func, delay[, param1, param2, ...]);</span><br><span class="line">let intervalID = window.setInterval(code, delay);</span><br><span class="line"></span><br><span class="line">var intervalID = window.setInterval(animate, 500);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>setInterval指定的是“开始执行”之间的间隔，并不考虑每次任务执行本身所消耗的时间。<br>因此实际上，两次执行之间的间隔会小于指定的时间。<br>比如，指定每 100ms 执行一次，每次执行需要   5ms，那么第一次执行结束后95毫秒，第二次执行就会开始。<br>如果某次执行耗时特别长，比如需要105毫秒，那么它结束后，下一次执行就会立即开始。  </p>
+</blockquote>
+<blockquote>
+<p>为了确保两次执行之间有固定的间隔，可以不用setInterval，而是每次执行结束后，使用setTimeout指定下一次执行的具体时间。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var i = 1;</span><br><span class="line">var timer = setTimeout(function f() &#123;</span><br><span class="line">    timer = setTimeout(f, 2000);</span><br><span class="line">&#125;, 2000);</span><br></pre></td></tr></table></figure>
+<h3 id="sect-window-clearTimeout-1"><a href="#sect-window-clearTimeout-1" class="headerlink" title="&sect; window.clearTimeout"></a><a name="clearTimeout">&sect; window.clearTimeout</a></h3><blockquote>
+<p>取消了先前通过调用setTimeout()建立的定时器。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.clearTimeout(timeoutID)</span><br></pre></td></tr></table></figure>
+<h3 id="sect-window-clearInterval-1"><a href="#sect-window-clearInterval-1" class="headerlink" title="&sect; window.clearInterval"></a><a name="clearInterval">&sect; window.clearInterval</a></h3><blockquote>
+<p>取消了先前通过调用setInterval()建立的定时器。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.clearInterval(timeoutID)</span><br></pre></td></tr></table></figure>
+<h3 id="sect-运行机制-1"><a href="#sect-运行机制-1" class="headerlink" title="&sect; 运行机制"></a><a name="theory">&sect; 运行机制</a></h3><blockquote>
+<p>setTimeout和setInterval的运行机制，是将指定的代码移出本轮事件循环，等到下一轮事件循环，再检查是否到了指定时间。如果到了，就执行对应的代码；如果不到，就继续等待。</p>
+</blockquote>
+<blockquote>
+<p>这意味着，setTimeout和setInterval指定的回调函数，必须等到本轮事件循环的所有同步任务都执行完，才会开始执行。由于前面的任务到底需要多少时间执行完，是不确定的，所以没有办法保证，setTimeout和setInterval指定的任务，一定会按照预定时间执行。</p>
+</blockquote>
+<blockquote>
+<p>由于setTimeout(f, 0)实际上意味着，将任务放到浏览器最早可得的空闲时段执行，所以那些计算量大、耗时长的任务，常常会被放到几个小部分，分别放到setTimeout(f, 0)里面执行。</p>
+</blockquote>
+</div><div class="tags"><a href="/tags/JavaScript/">JavaScript</a></div><div class="post-nav"><a class="pre" href="/2018/04/25/string-method/">字符串常用方法</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="https://linfengdoor.github.io"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Tool/" style="font-size: 15px;">Tool</a> <a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/HTML/" style="font-size: 15px;">HTML</a> <a href="/tags/Other/" style="font-size: 15px;">Other</a> <a href="/tags/Hack/" style="font-size: 15px;">Hack</a> <a href="/tags/VPN/" style="font-size: 15px;">VPN</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/12/24/lantern/">翻墙软件Lantern基本使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/13/book/">线上技术资源汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/19/git/">常用Git命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/06/responsive/">移动端响应式解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/21/look-source-code/">如何阅读大型前端开源项目的源码</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/29/pwa/">PWA简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/27/sort/">常见排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/26/currying/">函数柯里化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/25/center/">水平垂直居中方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/25/hack-tools/">渗透工具箱</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://github.com/trending" title="Github" target="_blank">Github</a><ul></ul><a href="https://weekly.75team.com/" title="奇舞周刊" target="_blank">奇舞周刊</a><ul></ul><a href="https://weekly.manong.io/issues/" title="码农周刊" target="_blank">码农周刊</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">我的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
